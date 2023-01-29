@@ -11,6 +11,7 @@ export class courseController {
   private courseService: CourseService;
 
   @Post("/")
+  @Authenticate("jwt")
   post(@BodyParams() body: Course) {
     return this.courseService.create(body);
   }
