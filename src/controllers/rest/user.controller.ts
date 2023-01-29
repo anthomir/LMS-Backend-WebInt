@@ -22,6 +22,7 @@ export class UserController {
   }
 
   @Get("/")
+  @Authenticate("jwt")
   get(@QueryParams("filter") filter?: string) {
     return filter ? this.usersService.find(filter) : this.usersService.find();
   }
