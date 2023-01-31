@@ -19,14 +19,18 @@ export class UsersService {
   }
 
   async create(user: User): Promise<User> {
-    let passwordEncrypted = await cryptPassword(user.password);
-    let userToCreate = { ...user, password: passwordEncrypted };
+    try{
+      let passwordEncrypted = await cryptPassword(user.password);
+      let userToCreate = { ...user, password: passwordEncrypted };
 
-    const model = new this.User(userToCreate);
+      const model = new this.User(userToCreate);
 
-    await model.updateOne(userToCreate, { upsert: true });
+      await model.updateOne(userToCreate, { upsert: true });
 
-    return model;
+      return model;
+    } catch(err){
+      return err.message
+    }
   }
 
   async login(body: any, res: Res) {
@@ -34,7 +38,7 @@ export class UsersService {
       return res.status(400).json({ success: false, msg: "Bad Request" });
     }
 
-    let user = await this.User.findOne({ email: body.email }).lean();
+    let user = await this.User.findOne({ email: body.email }).select("+password").lean();
     if (!user) {
       return res.status(404).json({ success: false, msg: "User not found" });
     }

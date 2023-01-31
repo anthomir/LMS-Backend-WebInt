@@ -1,5 +1,5 @@
 import { CollectionOf, Email, Required, Default } from "@tsed/schema";
-import { Model, ObjectID, Ref } from "@tsed/mongoose";
+import { Model, ObjectID, Ref, Select, Unique } from "@tsed/mongoose";
 import { Course } from "./Course";
 import { Role } from "./Enum";
 
@@ -13,13 +13,14 @@ export class User {
 
   @Required()
   @Email()
+  @Unique()
   email: string;
 
-  @Required()
   @Default(Role.User)
   role: string;
 
   @Required()
+  @Select(false)
   password: string;
 
   @Ref(() => Course)
