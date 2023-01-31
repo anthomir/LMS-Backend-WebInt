@@ -10,6 +10,7 @@ import { User } from "src/models/User";
 import { UsersService } from "src/services/user.service";
 import { Authenticate, Authorize } from "@tsed/passport";
 import { Req, Res } from "@tsed/common";
+import { query } from "express";
 
 @Controller("/user")
 export class UserController {
@@ -30,6 +31,11 @@ export class UserController {
   @Post("/login")
   login(@BodyParams() body: any, @Res() res: Res) {
     return this.usersService.login(body, res);
+  }
+
+  @Put("/")
+  put(@Req() req: Req, @BodyParams() body: any, @Res() res: Res) {
+    return this.usersService.update(req, body, res);
   }
 
   @Delete("/")

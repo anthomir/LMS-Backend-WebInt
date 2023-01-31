@@ -71,6 +71,11 @@ export class UsersService {
     return res.status(200).json({ success: true, data: userToReturn });
   }
 
+  async update(req: Req, body: any, res: Res){
+    await this.User.updateOne({id: req.query.id},{ role: body.role})
+    return true;
+  }
+
   async delete(req: Req, res: Res): Promise<User | any> {
     if (!req.user) {
       return res.status(404).json({ success: false, msg: "Not Found" });

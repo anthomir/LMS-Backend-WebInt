@@ -5,7 +5,7 @@ import { Role } from "./Enum";
 
 @Model()
 export class User {
-  @ObjectID("id")
+  @ObjectID("_id")
   _id: string;
 
   @Required()
